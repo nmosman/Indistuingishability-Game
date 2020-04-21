@@ -18,8 +18,17 @@ import {
 } from "react-router-dom";
 
 
+var key = generate_key(2,1)
+var msgs = [generate_key(2,1), generate_key(2,1)] 
+var coinRes = flipCoin()
+
+
 //Store the container for rendering our website
 const appRoot = document.querySelector('.appRoot');
+
+function refreshPage(){ 
+    window.location.reload(); 
+}
 
 // Component for main component
 //TODO add a common component for all pages
@@ -72,14 +81,14 @@ class GamePage extends React.Component{
     <Col><b>Defender</b>
  <p>=============================================== </p>
  <br></br><b> Coin Flip </b>
- <br></br><b> k = (11, 11, 21) </b>
- <br></br><b> b = 0 </b>
- <br></br><b> c = (14,15,9) </b>
+ <br></br><b> k = {formatKey(key)}  </b>
+ <br></br><b> b = {coinRes} </b>
+ <br></br><b> c = {formatKey(perform_op(key, msgs[coinRes], "*", 1))} </b>
     </Col>
 
     <Col><b>Attacker</b>  <p> =============================== </p>
-      <br></br><b> Message 0: (12,34,10) </b>
-   <br></br><b> Message 1: (21,05,12) </b>
+      <br></br><b> Message 0: {formatKey(msgs[0]) } </b>
+   <br></br><b> Message 1: {formatKey(msgs[1]) }  </b>
     <InputGroup className="mb-3">
     <InputGroup.Prepend>
       <InputGroup.Text id="basic-addon1">@</InputGroup.Text>
@@ -88,6 +97,12 @@ class GamePage extends React.Component{
   </InputGroup>
   <br></br>
  <Button> Submit your guess </Button>
+ <Link to='/gamepage'>
+		<Button onClick={refreshPage}> New Game </Button>
+ </Link>
+ <Link to='/'>
+ <Button> Home </Button>
+ </Link>
 
     </Col>
  
@@ -194,9 +209,83 @@ return (
 
 export default App;
 
+function generate_key(length, digits = 1){
+    var numbers = []
+    var i;
+    for(i = 0; i < length; i++){
+    	numbers.push(Math.floor(Math.random()*Math.pow(10,digits)))
+      console.log(numbers)
+    }
+  
+    return(numbers)
+}
 
 
+function formatKey(key){
+	var resString = "("
+	 for(var i = 0; i < key.length; i++){
+	  if(i == key.length - 1) 
+	  {
+		  resString += key[i] + ")"
+	  }else{
+		  resString += "" + key[i] + ","
+	  }
+    }
+	return resString 
+}
 
 
+function flipCoin(){
+	var res = Math.round(Math.random())
+	return res
+	
+}
+
+// Perform encrpytion scheme based on given operation and carry flag 
+function perform_op(key, message, op, carry = 0){
+  
+    var res = [];
+    var i; 
+    for(i = 0; i < key.length; i++){
+     
+          if(op == "+"){
+         
+            var result = key[i] + message[i]
+	
+            if(carry){
+                result = result % 10 
+            }
+            res.push(result)
+           }
+	        else if(op == "-"){
+	            result = key[i] - message[i]
+            		if(carry){
+                	result = result % 10 
+                	}
+            	res.push(result)
+            }
+        	else if(op == "*"){
+            	result = key[i] * message[i]
+            	if(carry) {
+                	result = result % 10 
+            	}
+            	res.push(result)
+        	}
+        	
+        }
+    var resString = "("
+    for(i = 0; i < key.length; i++){
+	  if(i == key.length - 1) 
+	  {
+		  resString += res[i] + ")"
+	  }else{
+		  resString += "" + res[i] + ","
+		
+	  }
+	}
+
+	
+    return res 
+  }
 
 
