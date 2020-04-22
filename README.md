@@ -8,3 +8,8 @@ TODOS:
 3) Add quiz questions
 4) Define rules of games/tutorial in info page
 5) Overall UI/UX Improvement
+6) If time permits, refactoring and QA/QC
+7) DevOps (migrate over to Heroku)
+
+Bugs:
+1) Carry flag in settings always "on"
