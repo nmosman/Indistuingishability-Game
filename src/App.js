@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import Button from 'react-bootstrap/Button'
 import SplitButton from 'react-bootstrap/SplitButton'
+import ToggleButton from 'react-bootstrap/ToggleButton'
 import Dropdown from 'react-bootstrap/Dropdown'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
@@ -45,9 +46,11 @@ class App extends React.Component {
 		//4 - Custom defined rule set 
 			num_of_rounds: 5,
 			game_type: 1,
-			carry: 1,
-			digits: 3,
-			op: "+"
+			carry: 0,
+			digits: 2,
+			keyLength: 3,
+			op: "+",
+			scheme: "Scheme 1"
 			
 	};
 }
@@ -61,13 +64,13 @@ handleToUpdate(state){
       <div>
           <div className="App">
      <h2> Indistinguishability game </h2>
-	 <p> {this.state.num_of_rounds} </p>
+	
       <header className="App-header">
 
 
 		<Router>
 		  <Switch>
-		  <Route exact path="/" component = {Home} />
+		  <Route exact path="/" render={props =>  (<Home {...props} state ={this.state} handleToUpdate = {handleToUpdate.bind(this)} />) } />
           <Route path="/gamepage"  render={props =>  (<GamePage {...props} state ={this.state} handleToUpdate = {handleToUpdate.bind(this)} />) }/>
           <Route path="/settings" render={props =>  (<Settings {...props} state ={this.state} handleToUpdate = {handleToUpdate.bind(this)} />) }/>
           <Route path="/info" component = {Info} />
@@ -85,19 +88,29 @@ handleToUpdate(state){
     );
   }
 }	
-function getGameType(gameType){
+function getGameType(gameType, state){
 	var rulesText = "Default rules";
 	switch(gameType){
-		case 1:
+		case "Scheme 1":
 			rulesText = " This is 1 digit with no carry";
 			break;
-		case 2:
+		case "Scheme 2":
+			rulesText = " This is Scheme 2";
 			break;
-		case 3:
+		case "Scheme 3":
+			 rulesText = " This is Scheme 3";
 			break;
-		case 4:
+		case "Scheme 4":
+			rulesText = " This is Scheme 4";
 			break;
-		case 5:
+		case "Custom Scheme":
+			rulesText = "<b>This is a Custom Scheme</b><br>";
+			rulesText += "<small>From the user defined inputs, we have the following rules:<br>";
+			rulesText += "Number of Rounds: " + state.num_of_rounds + " <br> ";
+			rulesText += "Number of Digits in Keys/Messages: " + state.digits + " <br> ";
+			rulesText += "<small>Number of Elements per Key/Message: " + state.keyLength + " <br> ";
+			rulesText += "<small>Arithmetic Operation for Encryption Scheme: " + state.op + " <br> ";
+			rulesText += "Carry for Addition: " + state.carry + " </small><br> ";
 			break;
 		
 	}
@@ -108,12 +121,19 @@ class GamePage extends React.Component{
 constructor(props){
 	super(props);
 	
+	
 }
  componentWillMount() {
-	 this.props.state.num_of_rounds = 2
+	 
 	 this.setState(this.props.state)
+	 console.log("in gamepage")
+	
+	
+	 
 	 var handleToUpdate = this.props.handleToUpdate;
 	 handleToUpdate(this.props.state)
+	 
+	
   }
 
   
@@ -122,13 +142,14 @@ constructor(props){
   }
 		render(){
  
-		
+		 console.log(this.state)
+		  key = generate_key(this.state.keyLength, this.state.digits);
+	 msgs = [generate_key(this.state.keyLength, this.state.digits), generate_key(this.state.keyLength, this.state.digits)];
 		return(
 			
 		 <div >
-		<p> No of rounds: {this.state.num_of_rounds} </p>
 		<br></br>
-		<p> Game rules: {getGameType(this.state.game_type)}</p><br></br>
+		<p> Game rules: <div dangerouslySetInnerHTML ={{ __html: getGameType(this.state.scheme, this.state)} } /></p><br></br>
 		 <body>
 	
 		<Container>
@@ -174,14 +195,27 @@ class Settings extends React.Component{
 	constructor(props){
 	super(props);
 	
+	this.handleChange = this.handleChange.bind(this) 
 }
 
- handleChange(e){
-		alert(e.target.value);
+async handleChange(e){
+		
+		var val = e.target.value
+		//alert("first val " + e.target.value)
+		//this.setState(  {...this.state,[e.target.name]: val} )
+		await this.setState({[e.target.name]: e.target.value})
+			console.log(this.state)
+		var handleToUpdate = this.props.handleToUpdate;
+	     
+		handleToUpdate(this.state)
+		
+
+		
  }
  componentWillMount() {
-	 this.props.state.num_of_rounds = 23
+	
 	 this.setState(this.props.state)
+
 	 var handleToUpdate = this.props.handleToUpdate;
 	 handleToUpdate(this.props.state)
   }
@@ -192,7 +226,6 @@ class Settings extends React.Component{
   }
 		render(){
  
- var handleChange = this.handleChange
 
 		
 		return(
@@ -206,50 +239,55 @@ class Settings extends React.Component{
   <Form>
   <Form.Group >
     <Form.Label>Enter number of digits for each number in key</Form.Label>
-    <Form.Control  placeholder="1" />
+		<Form.Control  placeholder="2" name = "digits"  onChange = {this.handleChange} />
   
   </Form.Group>
-  <Form.Group >
-    <Form.Label>Enter the key length</Form.Label>
-    <Form.Control  placeholder="3"   name="keyLength"  onChange={handleChange} />
- 
+  
+    <Form.Group >
+    <Form.Label>Enter in the length of the key</Form.Label>
+		<Form.Control   placeholder="3"  name = "keyLength"   onChange = {this.handleChange}/>
+		<Form.Text> Example key: {formatKey(generate_key(this.state.keyLength, this.state.digits))} </Form.Text>
   </Form.Group>
-
+  <Form.Group >
+  <br></br>
+    <Form.Label>Number of Rounds per Game</Form.Label>
+		<Form.Control  placeholder="5" name = "num_of_rounds"  onChange = {this.handleChange} />
+  
+  </Form.Group>
  
 </Form>
+
+  
 </div>
+	<label>Select the arithmetic operator </label>
+    <select className="form-control" name ="op" onChange = {this.handleChange}>
+          <option value="+">+</option>
+          <option value="-">-</option>
+          <option value="*">*</option>
+        </select>
  <div class="row">
-    <div class="custom-control custom-switch">
-        <input type="checkbox" class="custom-control-input" id="customSwitch1" />		
-        <label class="custom-control-label" for="customSwitch1">Carry On?</label>
-
-    </div>
+ 
     
   </div>
+  <br></br>
     <div class="row">
     <div class="custom-control custom-switch">
-        <input type="checkbox" class="custom-control-input" id="customSwitch2" />	
-        <label class="custom-control-label " for="customSwitch2">Another option</label>
+        <input type="checkbox" name = "carry" onChange = {this.handleChange} class="custom-control-input" id="customSwitch2" />	
+        <label class="custom-control-label " for="customSwitch2">Enable carry on addition?</label>
+
+    </div>
 	
-    </div>
     
   </div>
-    <div class="row">
-    <div class="custom-control custom-switch">
-        <input type="checkbox" class="custom-control-input" id="customSwitch3" />	
-        <label class="custom-control-label" for="customSwitch3">Blah</label>
-
-    </div>
-    
-  </div>
+     <br></br>  
   <div class="row">
+
     <Link to='/'>
  <Button> Home </Button>
  </Link>
-  <button type="button" class="btn btn-secondary" >Done</button>
+
   </div>
-  
-  
+
 </div>
 		
 		
@@ -287,12 +325,16 @@ class Info extends React.Component{
 class Home extends React.Component{
 	constructor(props){
 	super(props);
-	this.state ={selection: 1}
+	this.state = this.props.state
+	this.onSelect = this.onSelect.bind(this) 
 }
-	onSelect = (eventKey) => {
+	async onSelect(eventKey){
 		selectedGame = eventKey 
 		alert(selectedGame)
-		this.setState({selection: eventKey})
+		await this.setState({scheme: eventKey})
+		var handleToUpdate = this.props.handleToUpdate;
+	     
+		handleToUpdate(this.state)
 	}
 	render(){
 		const selection  = this.state;
@@ -311,18 +353,18 @@ return (
 
 
   <p> Select your encrpytion scheme</p>
-      <Dropdown title='Encrpytion Scheme' onSelect={this.onSelect}>
+      <Dropdown onSelect={this.onSelect}>
   <Dropdown.Toggle variant="success" id="dropdown-basic">
-    Encrpytion Scheme
+{this.state.scheme}
   </Dropdown.Toggle>
 
 
   <Dropdown.Menu >
-    <Dropdown.Item eventKey = "1">Scheme 1</Dropdown.Item>
-    <Dropdown.Item eventKey = "2">Scheme 2</Dropdown.Item>
-	<Dropdown.Item eventKey = "3">Scheme 3</Dropdown.Item>
-	<Dropdown.Item eventKey = "4">Scheme 4</Dropdown.Item>
-    <Dropdown.Item eventKey = "5">Custom Scheme</Dropdown.Item>
+    <Dropdown.Item eventKey = "Scheme 1">Scheme 1</Dropdown.Item>
+    <Dropdown.Item eventKey = "Scheme 2">Scheme 2</Dropdown.Item>
+	<Dropdown.Item eventKey = "Scheme 3">Scheme 3</Dropdown.Item>
+	<Dropdown.Item eventKey = "Scheme 4">Scheme 4</Dropdown.Item>
+    <Dropdown.Item eventKey = "Custom Scheme">Custom Scheme</Dropdown.Item>
   </Dropdown.Menu>
 </Dropdown>
 
