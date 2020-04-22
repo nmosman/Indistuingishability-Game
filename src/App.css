@@ -28,6 +28,17 @@
   color: #61dafb;
 }
 
+.spoiler, .spoiler2{ 
+  color: black; 
+  background-color:black;
+}
+
+.spoiled {
+  transition-duration: 200ms;
+  color: white;
+  cursor: pointer;
+  }
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

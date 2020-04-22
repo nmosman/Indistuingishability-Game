@@ -32,6 +32,17 @@ function refreshPage(){
 }
 
 // Component for main component
+
+//Show answers once guess is submitted
+function showAnswers() {
+  document.querySelector("#k").className = ".spoiled"
+  document.querySelector("#b").className = ".spoiled"
+
+}
+
+function submitButton () {
+  showAnswers();
+}
 //TODO add a common component for all pages
 class App extends React.Component {
 	constructor(props){
@@ -156,9 +167,9 @@ constructor(props){
   <Row className="justify-content-md-center">
     <Col><b>Defender</b>
  <p>=============================================== </p>
- <br></br><b> </b>
- <br></br><b> k = {formatKey(key)}  </b>
- <br></br><b> b = {coinRes} </b>
+ <br></br><b> Coin Flip </b>
+ <br></br><b> k = <span className="spoiler" id="k"> {formatKey(key)} </span> </b>
+ <br></br><b> b = <span className="spoiler" id="b"> {coinRes} </span></b>
  <br></br><b> c = {formatKey(perform_op(key, msgs[coinRes], this.state.op, this.state.digits))} </b>
     </Col>
 
@@ -171,8 +182,10 @@ constructor(props){
     </InputGroup.Prepend>
     
   </InputGroup>
-  <br></br>
- <Button> Submit your guess </Button>
+  <br></br><br />
+<b>Input your Guess Here: </b><input type="text" id="guess-field" placeholder="Choose wisely..." onKeyPress={(e) => {if (e.key === "Enter") {submitButton()}}}></input><br /><br />
+
+ <Button onClick={submitButton}> Submit your guess </Button>
  <Link to='/gamepage'>
 		<Button onClick={refreshPage}> New Game </Button>
  </Link>
@@ -188,7 +201,7 @@ constructor(props){
 </body>
 		</div>
 		);
-	}}
+  }}
 
 
 class Settings extends React.Component{
