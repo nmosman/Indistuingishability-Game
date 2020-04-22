@@ -34,12 +34,9 @@
 }
 
 .spoiled {
+  transition-duration: 200ms;
   color: white;
   cursor: pointer;
-  }
-
-.spoiled { 
-  background-color:white; 
   }
 
 @keyframes App-logo-spin {
