@@ -69,7 +69,7 @@ handleToUpdate(state){
 		  <Switch>
 		  <Route exact path="/" component = {Home} />
           <Route path="/gamepage"  render={props =>  (<GamePage {...props} state ={this.state} handleToUpdate = {handleToUpdate.bind(this)} />) }/>
-          <Route path="/settings" component = {Settings} /> 
+          <Route path="/settings" render={props =>  (<Settings {...props} state ={this.state} handleToUpdate = {handleToUpdate.bind(this)} />) }/>
           <Route path="/info" component = {Info} />
 		  <Route path="/quiz" component = {Quiz} /> 
 
@@ -88,9 +88,8 @@ handleToUpdate(state){
 function getGameType(gameType){
 	var rulesText = "Default rules";
 	switch(gameType){
-		case 0:
-			break;
 		case 1:
+			rulesText = " This is 1 digit with no carry";
 			break;
 		case 2:
 			break;
@@ -111,7 +110,6 @@ constructor(props){
 	
 }
  componentWillMount() {
-    document.body.classList.add('page-not-found')
 	 this.props.state.num_of_rounds = 2
 	 this.setState(this.props.state)
 	 var handleToUpdate = this.props.handleToUpdate;
@@ -120,7 +118,7 @@ constructor(props){
 
   
   componentWillUnmount() {
-    document.body.classList.remove('page-not-found');
+
   }
 		render(){
  
@@ -173,33 +171,54 @@ constructor(props){
 
 
 class Settings extends React.Component{
-	 componentWillMount() {
-    document.body.classList.add('page-not-found')
+	constructor(props){
+	super(props);
+	
+}
+
+ handleChange(e){
+		alert(e.target.value);
+ }
+ componentWillMount() {
+	 this.props.state.num_of_rounds = 23
+	 this.setState(this.props.state)
+	 var handleToUpdate = this.props.handleToUpdate;
+	 handleToUpdate(this.props.state)
   }
+
   
   componentWillUnmount() {
     document.body.classList.remove('page-not-found');
   }
 		render(){
  
+ var handleChange = this.handleChange
+
 		
 		return(
 		<div>
 		<h2> Settings </h2>
 		<div class="container">
-  <div class="row">
 
 
-  </div>
-  <div class="row">
-     <select class="custom-select">
-      <option selected>Options</option>
-      <option value="1">1</option>
-      <option value="2">2</option>
-      <option value="3">3</option>
-    </select>
-  </div>
-  <div class="row">
+ 
+<div class="row">
+  <Form>
+  <Form.Group >
+    <Form.Label>Enter number of digits for each number in key</Form.Label>
+    <Form.Control  placeholder="1" />
+  
+  </Form.Group>
+  <Form.Group >
+    <Form.Label>Enter the key length</Form.Label>
+    <Form.Control  placeholder="3"   name="keyLength"  onChange={handleChange} />
+ 
+  </Form.Group>
+
+ 
+</Form>
+</div>
+ <div class="row">
     <div class="custom-control custom-switch">
         <input type="checkbox" class="custom-control-input" id="customSwitch1" />		
         <label class="custom-control-label" for="customSwitch1">Carry On?</label>
@@ -224,8 +243,10 @@ class Settings extends React.Component{
     
   </div>
   <div class="row">
-    
-  <button type="button" class="btn btn-secondary">Done</button>
+    <Link to='/'>
+ <Button> Home </Button>
+ </Link>
+  <button type="button" class="btn btn-secondary" >Done</button>
   </div>
   
   
