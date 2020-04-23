@@ -1,18 +1,18 @@
 Authors: Abdalrahman Bush, Raafat Aburashed and Nasir Osman
 
+![ScreenShot](Capture.PNG)
 
-TODOS: 
-~~1) Update game state from settings~~
-~~2) Game logic update to include rounds and checking if guesses are correct~~
-3) Add quiz questions
-  - partially done.
-4) Define rules of games/tutorial in info page
-  -need help here 
-5) Overall UI/UX Improvement
--  and here
-6) If time permits, refactoring and QA/QC
-7) DevOps (migrate over to Heroku)
-  @Nasir can handle this
 
-Bugs:
-~~1) Carry flag in settings always "on"~~
+
+## How to set this app locally (only tested on Windows platform):
+
+1) Ensure you have the latest version of Node.js downloaded 
+2) Clone this project repository locally
+3) At the root of the project open cmd or PowerShell and enter "npm start"
+4) Should be good to go! 
+
+
+Feel free to report any bugs or suggest features.
+
+Thanks
+
