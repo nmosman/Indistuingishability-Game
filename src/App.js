@@ -228,7 +228,7 @@ refreshGame(){
 	this.state.current_round +=1;
 	current_round += 1;
 	if(current_round > rounds){
-		alert("You have won " + wins + " out of " + rounds + " !");
+		alert("You have won " + this.state.wins + " out of " + this.state.num_of_rounds + "!");
 		this.state.current_round = 1
 		this.state.wins = 0
 		this.state.buttonText = "New Game"
@@ -263,7 +263,7 @@ async submitMessages(e){
 	
 	}
 	else{
-		await this.setState({ c: "<b> Defender's Cipher Text: </b> " + formatKey(perform_op(this.state.key, msg_list[this.state.b], this.state.op, this.state.digits)) + " " });
+		await this.setState({ c: "<br></br><b> Defender's Cipher Text: </b> " + formatKey(perform_op(this.state.key, msg_list[this.state.b], this.state.op, this.state.digits)) + " " });
 	
 		console.log(this.state)
 		
@@ -282,7 +282,7 @@ isValidMessage(msg){
 	for (var i = 0; i < msg.length; i++) { 
 		
 		digits = "" + msg[i];
-		if(digits.length != this.state.digits){
+		if(digits.length > this.state.digits){
 			return false;
 		}
 	} 
@@ -310,6 +310,7 @@ submitGuess(e){
 		alert("Your guess is: " + this.state.guess)
 		if(this.state.guess == this.state.b){
 			alert("You've guessed correctly, great work!")
+			this.state.wins += 1
 		}else{
 			alert("Incorrect guess. :(")  
 		}
@@ -404,14 +405,25 @@ submitGuess(e){
 		console.log(this.state)
 	
 		
-	
+		var carryText;
+		
+		switch(this.props.state.carry)
+		{
+			case 0:
+				carryText = " Yes for addition"
+				break;
+			case 1:
+				carryText = " Carry ignored"
+				break;
+		}
+		
 		var ciphertext = this.state.c;
 		var	rulesText =  "<b>Scheme: " + this.state.scheme + " </b><br/>"
 		rulesText += "<small>Number of Rounds: " + rounds + " <br/> ";
 		rulesText += "Number of Digits in Keys/Messages: " + digits + " <br/> ";
 		rulesText += "Number of Elements per Key/Message: " + keyLength + " <br/> ";
 		rulesText += "Arithmetic Operation for Encryption Scheme: " + op + " <br/> ";
-		rulesText += "Carry for Addition: " + carry + " </small><br/> ";
+		rulesText += "Carry for Addition: " + carryText + " </small><br/> ";
 		return(
 			
 		 <div >
@@ -421,7 +433,7 @@ submitGuess(e){
 		<p> Game rules: <div dangerouslySetInnerHTML ={{__html: rulesText}}/> </p><br></br>
 		 <body>
 	
-		<Container  fluid><small>Current Round: {current_round} / {rounds} </small> <br/><small>Wins: {wins} </small><hr/>
+		<Container  fluid><small>Current Round: {current_round} / {rounds} </small> <br/><small>Wins: {this.state.wins} </small><hr/>
   <Row >
     <Col xs={4}><b>Defender   </b>
  <p><hr/></p>
@@ -482,7 +494,17 @@ async handleChange(e){
 		var val = e.target.value
 		//alert("first val " + e.target.value)
 		//this.setState(  {...this.state,[e.target.name]: val} )
-		await this.setState({[e.target.name]: e.target.value})
+		if(e.target.name === "carry"){
+			if(e.target.checked){
+				val = 0
+			}
+		
+			
+			else{
+				val = 1
+			}
+		}
+		await this.setState({[e.target.name]: val})
 			console.log(this.state)
 		var handleToUpdate = this.props.handleToUpdate;
 	     
@@ -552,7 +574,7 @@ async handleChange(e){
     <div class="row">
     <div class="custom-control custom-switch">
         <input type="checkbox" name = "carry" onChange = {this.handleChange} class="custom-control-input" id="customSwitch2" />	
-        <label class="custom-control-label " for="customSwitch2">Enable carry on addition?</label>
+        <label class="custom-control-label " for="customSwitch2"> Carry on addition?</label>
 
     </div>
 	
@@ -731,7 +753,66 @@ class Quiz extends React.Component {
       correct: 0,
       inProgress: true,
       questions: [{
-        question: "Who invented OTP?",
+        question: "Which of the following provides an optimal strategy for the indistuingishability game",
+        options: [{
+          option: "Choosing two of the same messages",
+          correct: true
+        }, {
+          option: "Selectinmg two maximally unique messages",
+          correct: false
+        }, {
+          option: "Providing two random messages",
+          correct: false
+        }],
+        img: {
+          src: '',
+          alt: ''
+        },
+        feedback: "",
+        moreUrl: ''
+      }, {
+        question: "What logical operator is typically used when encrpyting a One Time Pad with the plaintext?",
+        options: [{
+          option: "AND",
+          correct: false 
+        }, {
+          option: "XOR",
+          correct: true
+        }, {
+          option: "NOR",
+          correct: false
+        }],
+        img: {
+          src: '',
+          alt: 'b'
+        },
+        feedback: "More info to be added ",
+        moreUrl: ""
+      
+      },
+	  {
+        question: "Why is OTP not practical in security?",
+        options: [{
+          option: "because",
+          correct: true
+        }, {
+          option: "uhhh",
+          correct: false
+        }, {
+          option: "idk lol",
+          correct: false
+        }],
+        img: {
+          src: '',
+          alt: ''
+        },
+        feedback: "",
+        moreUrl: ''
+      },
+	  
+	  
+	  {
+        question: "Who was first credited with coming up with the One Time Pad Encryption Scheme?",
         options: [{
           option: "Me",
           correct: true
@@ -748,26 +829,54 @@ class Quiz extends React.Component {
         },
         feedback: "",
         moreUrl: ''
-      }, {
-        question: "bbbbbbbbb",
+      },
+	  
+	  
+	  {
+        question: "Who was first credited with coming up with the One Time Pad Encryption Scheme?",
         options: [{
-          option: "4",
+          option: "Claude Shannon",
           correct: true
         }, {
-          option: "1",
+          option: "Gilbert Vernam",
+          correct: true
+        }, {
+          option: "John von Neumann",
           correct: false
         }, {
-          option: "3",
+          option: "Alan Turing",
           correct: false
         }],
         img: {
           src: '',
-          alt: 'b'
+          alt: ''
+        },
+        feedback: "Gilbert Vernam, an engineer at AT&T Bell labs, invtend the one time pad (OTP) in 1979",
+        moreUrl: ''
+      },
+	  
+	  {
+        question: "If given a key in binary 1100 and 4 bit plaintext as 0000, whats the encrypted cipher text. (Hint Enc(pad, m) = pad XOR m",
+        options: [{
+          option: "1111",
+          correct: true
+        }, {
+          option: "0011",
+          correct: false
+        }, {
+          option: "1111",
+          correct: false
+        }],
+        img: {
+          src: '',
+          alt: ''
         },
         feedback: "",
-        moreUrl: ""
-      
-      }]
+        moreUrl: ''
+      }
+	  
+	  
+	  ]
     }
   }
 
