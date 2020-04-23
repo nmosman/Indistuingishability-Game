@@ -1,26 +1,26 @@
 {
   "files": {
-    "main.css": "/otp_game/static/css/main.a2837438.chunk.css",
-    "main.js": "/otp_game/static/js/main.eb7f82a0.chunk.js",
-    "main.js.map": "/otp_game/static/js/main.eb7f82a0.chunk.js.map",
-    "runtime-main.js": "/otp_game/static/js/runtime-main.efce95b5.js",
-    "runtime-main.js.map": "/otp_game/static/js/runtime-main.efce95b5.js.map",
-    "static/css/2.69121389.chunk.css": "/otp_game/static/css/2.69121389.chunk.css",
-    "static/js/2.6e2891f5.chunk.js": "/otp_game/static/js/2.6e2891f5.chunk.js",
-    "static/js/2.6e2891f5.chunk.js.map": "/otp_game/static/js/2.6e2891f5.chunk.js.map",
-    "index.html": "/otp_game/index.html",
-    "precache-manifest.84171ad1585d6608e3ce678fa2e4bb88.js": "/otp_game/precache-manifest.84171ad1585d6608e3ce678fa2e4bb88.js",
-    "service-worker.js": "/otp_game/service-worker.js",
-    "static/css/2.69121389.chunk.css.map": "/otp_game/static/css/2.69121389.chunk.css.map",
-    "static/css/main.a2837438.chunk.css.map": "/otp_game/static/css/main.a2837438.chunk.css.map",
-    "static/js/2.6e2891f5.chunk.js.LICENSE.txt": "/otp_game/static/js/2.6e2891f5.chunk.js.LICENSE.txt",
-    "static/media/logo.svg": "/otp_game/static/media/logo.5d5d9eef.svg"
+    "main.css": "/static/css/main.a2837438.chunk.css",
+    "main.js": "/static/js/main.dbf5f849.chunk.js",
+    "main.js.map": "/static/js/main.dbf5f849.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.96328dd8.js",
+    "runtime-main.js.map": "/static/js/runtime-main.96328dd8.js.map",
+    "static/css/2.69121389.chunk.css": "/static/css/2.69121389.chunk.css",
+    "static/js/2.6e2891f5.chunk.js": "/static/js/2.6e2891f5.chunk.js",
+    "static/js/2.6e2891f5.chunk.js.map": "/static/js/2.6e2891f5.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.89cb3b92aa514da8fc00440dea9ebe7b.js": "/precache-manifest.89cb3b92aa514da8fc00440dea9ebe7b.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/2.69121389.chunk.css.map": "/static/css/2.69121389.chunk.css.map",
+    "static/css/main.a2837438.chunk.css.map": "/static/css/main.a2837438.chunk.css.map",
+    "static/js/2.6e2891f5.chunk.js.LICENSE.txt": "/static/js/2.6e2891f5.chunk.js.LICENSE.txt",
+    "static/media/logo.svg": "/static/media/logo.5d5d9eef.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.efce95b5.js",
+    "static/js/runtime-main.96328dd8.js",
     "static/css/2.69121389.chunk.css",
     "static/js/2.6e2891f5.chunk.js",
     "static/css/main.a2837438.chunk.css",
-    "static/js/main.eb7f82a0.chunk.js"
+    "static/js/main.dbf5f849.chunk.js"
   ]
 }
