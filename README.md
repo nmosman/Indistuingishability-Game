@@ -11,6 +11,7 @@ Authors: Abdalrahman Bush, Raafat Aburashed and Nasir Osman
 3) At the root of the project open cmd or PowerShell and enter "npm start"
 4) Should be good to go! 
 
+Deploying to Heroku/Github Pages underway...
 
 Feel free to report any bugs or suggest features.
 
