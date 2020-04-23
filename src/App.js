@@ -102,7 +102,7 @@ handleToUpdate(state){
       <header className="App-header">
 
 
-		<Router>
+		<Router basename="/">
 		  <Switch>
 		  <Route exact path="/" render={props =>  (<Home {...props} state ={this.state} handleToUpdate = {handleToUpdate.bind(this)} />) } />
           <Route path="/gamepage"  render={props =>  (<GamePage {...props} state ={this.state} handleToUpdate = {handleToUpdate.bind(this)} />) }/>
