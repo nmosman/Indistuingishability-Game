@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/Indistuingishability-Game/precache-manifest.73b458c79612a931c82faecdcf7f9c36.js"
+  "/Indistuingishability-Game/precache-manifest.4ba3e330423dc765743e5452e3f43ed1.js"
 );
 
 self.addEventListener('message', (event) => {

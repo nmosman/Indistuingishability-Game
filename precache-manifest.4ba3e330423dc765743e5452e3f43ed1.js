@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "d7726bc1f77ade8d47a625902858c998",
+    "revision": "cc437fe81c455f51ff6612d57b70bd65",
     "url": "/Indistuingishability-Game/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/Indistuingishability-Game/static/css/2.69121389.chunk.css"
   },
   {
-    "revision": "bdfe7a659247ace03533",
+    "revision": "7260b03464aca3e2a0ac",
     "url": "/Indistuingishability-Game/static/css/main.a2837438.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/Indistuingishability-Game/static/js/2.6e2891f5.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "bdfe7a659247ace03533",
-    "url": "/Indistuingishability-Game/static/js/main.eb577379.chunk.js"
+    "revision": "7260b03464aca3e2a0ac",
+    "url": "/Indistuingishability-Game/static/js/main.54f12ed7.chunk.js"
   },
   {
     "revision": "db64a3a9df45498547cd",
