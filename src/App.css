@@ -23,6 +23,9 @@ html, body {
   }
 }
 
+.Game-Border{
+	  min-width: 120vh;
+}
 .App-header {
   background-color: #282c34;
   min-height: 90vh;

@@ -419,23 +419,23 @@ submitGuess(e){
 		
 		var ciphertext = this.state.c;
 		var	rulesText =  "<b>Scheme: " + this.state.scheme + " </b><br/>"
-		rulesText += "<small>Number of Rounds: " + rounds + " <br/> ";
+		rulesText += "<small><small>Number of Rounds: " + rounds + " <br/> ";
 		rulesText += "Number of Digits in Keys/Messages: " + digits + " <br/> ";
 		rulesText += "Number of Elements per Key/Message: " + keyLength + " <br/> ";
 		rulesText += "Arithmetic Operation for Encryption Scheme: " + op + " <br/> ";
-		rulesText += "Carry for Addition: " + carryText + " </small><br/> ";
+		rulesText += "Carry for Addition: " + carryText + " </small></small><br/> ";
 		return(
 			
 		 <div >
 		<br></br>
 	
 			
-		<p> Game rules: <div dangerouslySetInnerHTML ={{__html: rulesText}}/> </p><br></br>
-		 <body>
+		<p><div class="Info"  dangerouslySetInnerHTML ={{__html: rulesText}}/> </p><br></br>
+		 <body class="Game-Border">
 	
-		<Container  fluid><small>Current Round: {current_round} / {rounds} </small> <br/><small>Wins: {this.state.wins} </small><hr/>
+		<Container fluid><small>Current Round: {current_round} / {rounds} </small> <br/><small>Wins: {this.state.wins} </small><hr/>
   <Row >
-    <Col xs={4}><b>Defender   </b>
+    <Col xs={6}><b>Defender   </b>
  <p><hr/></p>
  <br></br><b> Coin Flip </b>
  <br></br><b> k = <span className="spoiler" ref="kk" id="k"> {formatKey(this.state.key)} </span> </b>
@@ -446,7 +446,7 @@ submitGuess(e){
 
     </Col>
 
-    <Col xs={8}><b>Attacker</b>  <p> <hr/> </p>
+    <Col xs={6}><b>Attacker</b>  <p> <hr/> </p>
 	
       <br></br><b> Message 0: <input type ="text" ref= "m1" name="msg0" onChange = {this.updateMessages}/> </b> <small> {formatKey(this.state.msg0) } </small>
    <br></br><b> Message 1: <input type ="text"  ref= "m2" name="msg1" onChange = {this.updateMessages} /> </b> <small> {formatKey(this.state.msg1) } </small><br></br>
@@ -468,7 +468,7 @@ submitGuess(e){
 		<Button onClick={this.refreshGame}> {this.state.buttonText} </Button>
  </Link>
  <Link to='/'>
- <Button> Home </Button>
+ <Button style={{marginLeft:'20px'}}> Home </Button>
  </Link>
 
     </Col>
@@ -674,16 +674,17 @@ class Home extends React.Component{
 		const selection  = this.state;
 return (
     <div className="App">
-     <h2> Indistinguishability game </h2>
+     <p style={{marginTop : '20px'}}> An interactive web app  on teaching how OTP works! </p>
       <header className="App-header">
       
 
-     
      	 <Link to='/gamepage'>
       	<Button> Start Game </Button>
 
 		</Link>
 	
+
+
 
 
   <p> Select your encrpytion scheme</p>
@@ -703,6 +704,7 @@ return (
 </Dropdown>
 
  <Link to='/settings'>
+
       	<Button> Game Settings </Button>
 
 		</Link>
@@ -714,11 +716,11 @@ return (
 		<Button> OTP Quiz </Button>
 		</Link>
       </header>
-      <body>
-      Test
 
-      
-      </body>
+
+    
+      <small> Source Code: <a href="https://github.com/nmosman/Indistuingishability-Game"> https://github.com/nmosman/Indistuingishability-Game</a> </small> 
+    
     </div>
   );
 }
