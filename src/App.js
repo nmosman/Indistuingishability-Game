@@ -10,6 +10,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import InputGroup from 'react-bootstrap/InputGroup'
 import Form from 'react-bootstrap/Form'
+import ReactDOM from "react-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {
   BrowserRouter as Router,
@@ -21,15 +22,30 @@ import {
 const RawHTML = (props) => <span dangerouslySetInnerHTML={{__html: props.html}}></span>;
 var key = generate_key(2,1)
 var msgs = [generate_key(2,1), generate_key(2,1)] 
-var coinRes = flipCoin()
+
 var selectedGame = 1;
+
+
+
+//global game states (kinda bad practice here but will be refactored in the near future)
+var score;
+var current_round = 1;
+var rounds = 1;
+var wins = 0;
+var guess = -999;
+var coinRes = flipCoin()
+var inputMsgs = []
+var cipherText = ""
 
 //Store the container for rendering our website
 const appRoot = document.querySelector('.appRoot');
 
 function refreshPage(){ 
     window.location.reload(); 
+
+
 }
+
 
 // Component for main component
 
@@ -37,6 +53,13 @@ function refreshPage(){
 function showAnswers() {
   document.querySelector("#k").className = ".spoiled"
   document.querySelector("#b").className = ".spoiled"
+  
+
+}
+
+function hideAnswers() {
+  document.querySelector("#k").className = ".spoiler"
+  document.querySelector("#b").className = ".spoiler"
 
 }
 
@@ -131,9 +154,181 @@ function getGameType(gameType, state){
 class GamePage extends React.Component{
 constructor(props){
 	super(props);
+	this.submitGuess = this.submitGuess.bind(this) 
+	this.changeGuess = this.changeGuess.bind(this) 
+	this.submitMessages = this.submitMessages.bind(this)
+	this.updateMessages = this.updateMessages.bind(this)
+	this.isValidMessage = this.isValidMessage.bind(this)
+	this.refreshGame = this.refreshGame.bind(this)
 	
+	rounds = this.props.state.num_of_rounds
+	
+	this.state = {
+			msg0: "",
+			msg1: "",
+			selectedMsg: "",
+			current_round: 1,
+			wins: 0,
+			guess: -999,
+			b: flipCoin(), 
+			c: "",
+			warningText: "",
+			key: "",
+			buttonText : "Next Round"
+			
+	}
+	
+	switch(this.props.state.scheme){
+			 	case "Scheme 1":
+					this.state.keyLength = 2;
+					this.state.digits = 1;
+					this.state.op = "+";
+					this.state.carry = 1;
+					break;
+				case "Scheme 2":
+					this.state.keyLength = 3;
+					this.state.digits = 1;
+					this.state.op = "+";
+					this.state.carry = 0;
+					break;
+				case "Scheme 3":
+					this.state.keyLength = 5;
+					this.state.digits = 2;
+					this.state.op = "+";
+					this.state.carry = 1;
+					break;
+				case "Scheme 4":
+				
+					this.state.keyLength = 7;
+					this.state.digits = 2;
+					this.state.op = "+";
+					this.state.carry = 0;
+					
+					break;
+				case "Custom Scheme":
+					this.state.keyLength = this.props.state.keyLength;  
+					this.state.rounds = this.props.state.rounds;
+					this.state.digits = this.props.state.digits;
+					this.state.carry = this.props.state.carry;
+					this.state.op = this.props.state.op 
+			 }
+	
+	this.state.key = generate_key(this.state.keyLength, this.state.digits)
+	
+
+	console.log(this.state)
+}
+refreshGame(){ 
+	if(this.state.buttonText == "New Game"){
+		this.state.buttonText = "Next Round";
+	}
+
+	
+	
+	this.state.current_round +=1;
+	current_round += 1;
+	if(current_round > rounds){
+		alert("You have won " + wins + " out of " + rounds + " !");
+		this.state.current_round = 1
+		this.state.wins = 0
+		this.state.buttonText = "New Game"
+		wins = 0;
+		current_round = 1
+		
+	}
+	else{
+		hideAnswers()
+		this.state.key = generate_key(this.state.keyLength, this.state.digits)
+		this.state.b = flipCoin()
+		this.state.c = "" 
+		this.refs.m1.value = ""
+		this.refs.m2.value = ""
+		this.refs.kk.style.color = "black"
+		this.refs.kk.style.background = "black"
+		this.refs.bb.style.color = "black"
+		this.refs.bb.style.background = "black"
+	}
+	    
+}
+
+async submitMessages(e){
+
+	var msg0 = this.state.msg0;
+	var msg1 = this.state.msg1;
+	var msg_list = [msg0, msg1]
+	if(!this.isValidMessage(msg0) || !this.isValidMessage(msg1)){
+		this.state.warningText = "Both messages must have lengths of " + this.state.keyLength + " and be " + this.state.digits + "-digit numbers ";	
+		await this.setState({c: ""})
+		
+	
+	}
+	else{
+		await this.setState({ c: "<b> Defender's Cipher Text: </b> " + formatKey(perform_op(this.state.key, msg_list[this.state.b], this.state.op, this.state.digits)) + " " });
+	
+		console.log(this.state)
+		
+	}
 	
 }
+
+isValidMessage(msg){
+	var digits;
+	//TODO need more validating 
+	if(msg.length != this.state.keyLength)
+	{
+		return false;
+	}
+	
+	for (var i = 0; i < msg.length; i++) { 
+		
+		digits = "" + msg[i];
+		if(digits.length != this.state.digits){
+			return false;
+		}
+	} 
+	
+	return true;
+}
+async updateMessages(e){
+		var msg = e.target.value.split`,`.map(x=>+x)
+		await this.setState({[e.target.name]: e.target.value.split`,`.map(x=>+x)})
+		if(!this.isValidMessage(msg))
+		{
+			this.state.warningText = "Both messages must have lengths of " + this.state.keyLength + " and be " + this.state.digits + "-digit numbers "
+		}
+			
+		
+		else{
+			this.state.warningText = ""
+		}
+		console.log(this.isValidMessage(msg))
+		
+}
+
+submitGuess(e){
+		
+		alert("Your guess is: " + this.state.guess)
+		if(this.state.guess == this.state.b){
+			alert("You've guessed correctly, great work!")
+		}else{
+			alert("Incorrect guess. :(")  
+		}
+		this.refs.kk.style.color = "black"
+		this.refs.kk.style.background = "white"
+		
+		this.refs.bb.style.color = "black"
+		this.refs.bb.style.background = "white"
+		showAnswers();
+
+		
+ }
+ 
+ async changeGuess(e){
+	 
+	 //do some logic to check if guess valid
+	 await this.setState({guess : e.target.value})
+	 
+ }
  componentWillMount() {
 	 
 	 this.setState(this.props.state)
@@ -152,42 +347,113 @@ constructor(props){
 
   }
 		render(){
- 
-		 console.log(this.state)
-		  key = generate_key(this.state.keyLength, this.state.digits);
-	 msgs = [generate_key(this.state.keyLength, this.state.digits), generate_key(this.state.keyLength, this.state.digits)];
+		var keyLength;
+		var digits;
+		var op;
+		var carry;
+		var rounds;
+		
+		// Check scheme to see which rules we are dealing with 
+		 switch(this.state.scheme){
+			 	case "Scheme 1":
+					this.state.keyLength = 2;
+					this.state.digits = 1;
+					this.state.op = "+";
+					this.state.carry = 1;
+					break;
+				case "Scheme 2":
+					this.state.keyLength = 3;
+					this.state.digits = 1;
+					this.state.op = "+";
+					this.state.carry = 0;
+					break;
+				case "Scheme 3":
+					this.state.keyLength = 5;
+					this.state.digits = 2;
+					this.state.op = "+";
+					this.state.carry = 1;
+					break;
+				case "Scheme 4":
+					keyLength = 7;
+					this.state.keyLength = keyLength;
+					
+					digits = 2;
+					this.state.digits = digits;
+					
+					op = "+";
+					this.state.op = op;
+					
+					carry = 0;
+					this.state.carry = carry;
+					
+					break;
+				case "Custom Scheme":
+					keyLength =  this.state.keyLength;
+					rounds = this.state.rounds;
+					digits = this.state.digits;
+					carry = this.state.carry;
+					op = this.state.op 
+			 }
+		
+		keyLength =  this.state.keyLength;
+		rounds = this.state.num_of_rounds;
+		digits = this.state.digits;
+		carry = this.state.carry;
+		op = this.state.op 
+		
+		console.log(this.state)
+	
+		
+	
+		var ciphertext = this.state.c;
+		var	rulesText =  "<b>Scheme: " + this.state.scheme + " </b><br/>"
+		rulesText += "<small>Number of Rounds: " + rounds + " <br/> ";
+		rulesText += "Number of Digits in Keys/Messages: " + digits + " <br/> ";
+		rulesText += "Number of Elements per Key/Message: " + keyLength + " <br/> ";
+		rulesText += "Arithmetic Operation for Encryption Scheme: " + op + " <br/> ";
+		rulesText += "Carry for Addition: " + carry + " </small><br/> ";
 		return(
 			
 		 <div >
 		<br></br>
-		<p> Game rules: <div dangerouslySetInnerHTML ={{ __html: getGameType(this.state.scheme, this.state)} } /></p><br></br>
+	
+			
+		<p> Game rules: <div dangerouslySetInnerHTML ={{__html: rulesText}}/> </p><br></br>
 		 <body>
 	
-		<Container>
-  <Row className="justify-content-md-center">
-    <Col><b>Defender</b>
- <p>=============================================== </p>
+		<Container  fluid><small>Current Round: {current_round} / {rounds} </small> <br/><small>Wins: {wins} </small><hr/>
+  <Row >
+    <Col xs={4}><b>Defender   </b>
+ <p><hr/></p>
  <br></br><b> Coin Flip </b>
- <br></br><b> k = <span className="spoiler" id="k"> {formatKey(key)} </span> </b>
- <br></br><b> b = <span className="spoiler" id="b"> {coinRes} </span></b>
- <br></br><b> c = {formatKey(perform_op(key, msgs[coinRes], this.state.op, this.state.digits))} </b>
+ <br></br><b> k = <span className="spoiler" ref="kk" id="k"> {formatKey(this.state.key)} </span> </b>
+ <br></br><b> b = <span className="spoiler" ref="bb" id="b"> {this.state.b} </span></b>
+ <br></br> 
+ <p> <div dangerouslySetInnerHTML ={{__html: this.state.c}}/> </p>
+ 
+
     </Col>
 
-    <Col><b>Attacker</b>  <p> =============================== </p>
-      <br></br><b> Message 0: {formatKey(msgs[0]) } </b>
-   <br></br><b> Message 1: {formatKey(msgs[1]) }  </b>
-    <InputGroup className="mb-3">
-    <InputGroup.Prepend>
-      <InputGroup.Text id="basic-addon1">@</InputGroup.Text>
-    </InputGroup.Prepend>
-    
-  </InputGroup>
-  <br></br><br />
-<b>Input your Guess Here: </b><input type="text" id="guess-field" placeholder="Choose wisely..." onKeyPress={(e) => {if (e.key === "Enter") {submitButton()}}}></input><br /><br />
+    <Col xs={8}><b>Attacker</b>  <p> <hr/> </p>
+	
+      <br></br><b> Message 0: <input type ="text" ref= "m1" name="msg0" onChange = {this.updateMessages}/> </b> <small> {formatKey(this.state.msg0) } </small>
+   <br></br><b> Message 1: <input type ="text"  ref= "m2" name="msg1" onChange = {this.updateMessages} /> </b> <small> {formatKey(this.state.msg1) } </small><br></br>
+   
+   <p style={{color:'red'}}> <small> <div dangerouslySetInnerHTML ={{__html: this.state.warningText}}/> </small></p><br></br>
+   <br></br>
+     
+   <Button onClick ={this.submitMessages}> Submit messages to defender</Button>
 
- <Button onClick={submitButton}> Submit your guess </Button>
+  <br></br><br />
+  <Form >
+   <Form.Group >
+    <b>Input your Guess Here: </b>
+    <Form.Control ref="blah" name="guess" id="guess-field" type="text"  placeholder="Choose wisely..." onChange = {this.changeGuess} onKeyPress={(e) => {if (e.key === "Enter") {this.submitGuess(e)}}} />
+    <Button onClick = {this.submitGuess}>Submit your guess</Button>
+  </Form.Group>
+ </Form>
  <Link to='/gamepage'>
-		<Button onClick={refreshPage}> New Game </Button>
+		<Button onClick={this.refreshGame}> {this.state.buttonText} </Button>
  </Link>
  <Link to='/'>
  <Button> Home </Button>
@@ -343,7 +609,7 @@ class Home extends React.Component{
 }
 	async onSelect(eventKey){
 		selectedGame = eventKey 
-		alert(selectedGame)
+	
 		await this.setState({scheme: eventKey})
 		var handleToUpdate = this.props.handleToUpdate;
 	     
