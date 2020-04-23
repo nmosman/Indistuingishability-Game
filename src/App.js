@@ -614,8 +614,41 @@ class Info extends React.Component{
  
 		
 		return(
-		 <div className="App">
-		<p> Info Page! </p>
+		
+	<div class="Info">
+	
+		
+		<b>What is this game? </b><br></br>
+
+
+
+<small>It's simple. You play as the attacker who's attempting to determine the defender's key by sending two numerical messages of your choice. Note that in this game, messages and keys are formatted as n-tuple of integers.
+
+<br/><br/> <small>For example, a key can look like this k = (21,59,48,12,10) </small>
+
+<br/>
+
+<br/>
+As your messages get send to the defender, the defender will then randomly select which of the two messages to encrpyt, and then send the ciphertext message back to you! Your goal is to correctly determine which message the defender had selected.
+
+<br/> By doing so, you'd then be able to do the selected encrpytion scheme operation backwards (decryption) and thus determine the <b>One-Time Pad</b>! :) </small>
+<br/><br/> <b> How to use the app?</b><br/>
+			<small>One can start off with selecting one of the four preset schemes (similar to those from our CPSC 329 Tutorials). <br/>
+			Or, you can define your very own <b>encrpytion scheme</b> by defining <br/>
+			<ul><li> The artihmetic operator</li>
+			<li>Number of digits per element</li>
+			<li>Number of elements in a key/message (for our app both have to be the same length for now) </li>
+			<li>A flag for enabling carry on addition </li>
+			</ul>
+			
+			<br/> To select a custom theme first go Home>Encryption Scheme and select <b> Custom Scheme </b>.<br/> Then go to <b>Settings</b> and enter in your values. Once done head back home and then start game! 
+			
+			
+<b><br/><br/>In Game Controls </b><br/>
+
+Enter in your two messages and ensure they are valid (number of digits and length). Then submit these to the defneder to reveal the encrpyted message and then have your crack at finding which message was selected! (0 or 1).
+
+</small>
 		</div>
 		);
 	}
@@ -674,11 +707,11 @@ return (
 
 		</Link>
 		 <Link to='/info'>
-      	<Button> Info </Button>
+      	<Button> Tutorial </Button>
 
 		</Link>
 		<Link to='/quiz'>
-		<Button> Test your knowledge </Button>
+		<Button> OTP Quiz </Button>
 		</Link>
       </header>
       <body>
@@ -733,7 +766,9 @@ const Results = (props) => {
   return (
     <div className="results fade-in">
       <h1>Your score: {((props.correct/props.questionLength) * 100).toFixed()}%</h1>
-      <button type="button" onClick={props.startOver}>Try again <i className="fas fa-redo"></i></button>
+      <button type="button" onClick={props.startOver}>Try again <i className="fas fa-redo"></i></button>  <Link to='/'>
+ <Button> Home </Button>
+ </Link>
     </div>
   );
 }
@@ -768,7 +803,7 @@ class Quiz extends React.Component {
           src: '',
           alt: ''
         },
-        feedback: "",
+        feedback: "Selecting two maximally different messages is the optimal solution in this game. Try this strategy out when playing the game!",
         moreUrl: ''
       }, {
         question: "What logical operator is typically used when encrpyting a One Time Pad with the plaintext?",
@@ -784,50 +819,50 @@ class Quiz extends React.Component {
         }],
         img: {
           src: '',
-          alt: 'b'
+          alt: ''
         },
-        feedback: "More info to be added ",
+        feedback: "The bitwise XOR operator is used in OTP ",
         moreUrl: ""
       
       },
 	  {
-        question: "Why is OTP not practical in security?",
+        question: "What is a reason why OTP encryption is not very practical in security?",
         options: [{
-          option: "because",
+          option: "The pad has to the be of the same length as the plaintext",
           correct: true
         }, {
-          option: "uhhh",
+          option: "It's very complicated to implement",
           correct: false
         }, {
-          option: "idk lol",
+          option: "It's very trivial to decrypt",
           correct: false
         }],
         img: {
           src: '',
           alt: ''
         },
-        feedback: "",
+        feedback: "One reason is the pad must be the same length as the plaintext. Basically the length of the pad scales as the length of the plaintext grows.",
         moreUrl: ''
       },
 	  
 	  
 	  {
-        question: "Who was first credited with coming up with the One Time Pad Encryption Scheme?",
+        question: "For perfect secrecy of OTP, whioh of the following must be true?",
         options: [{
-          option: "Me",
+          option: "The pad must be truly random",
           correct: true
         }, {
-          option: "Someone",
+          option: "Nobody should know how to encrypt the pad",
           correct: false
         }, {
-          option: "idk lol",
+          option: "The pad can only be used at most 3 times",
           correct: false
         }],
         img: {
           src: '',
           alt: ''
         },
-        feedback: "",
+        feedback: "Perfect secrecy assumes the pad generated is truly random. Also, the pad must only be used once!",
         moreUrl: ''
       },
 	  
@@ -856,26 +891,46 @@ class Quiz extends React.Component {
       },
 	  
 	  {
-        question: "If given a key in binary 1100 and 4 bit plaintext as 0000, whats the encrypted cipher text. (Hint Enc(pad, m) = pad XOR m",
+        question: "If given a key in binary as 1101 and a 4 bit plaintext as 0011, whats the encrypted cipher text. (Hint Enc(pad, m) = pad XOR m",
         options: [{
-          option: "1111",
+          option: "1110",
           correct: true
         }, {
-          option: "0011",
+          option: "1101",
           correct: false
         }, {
-          option: "1111",
+          option: "0011",
           correct: false
         }],
         img: {
           src: '',
           alt: ''
         },
-        feedback: "",
+        feedback: "Recall that 1 XOR 1 is 0. Otherwise XOR is identical to adding numbers normally",
         moreUrl: ''
       }
 	  
+	  ,
 	  
+	  {																			
+        question: "If given a key in binary as 11001100 and a 8 bit plaintext as 10101010, whats the encrypted cipher text. (Hint Enc(pad, m) = pad XOR m",
+        options: [{
+          option: "11100100",
+          correct: false
+        }, {
+          option: "01100110",
+          correct: true
+        }, {
+          option: "10110011",
+          correct: false
+        }],
+        img: {
+          src: '',
+          alt: ''
+        },
+        feedback: "Recall that 1 XOR 1 is 0. Otherwise XOR is identical to adding numbers normally",
+        moreUrl: ''
+      }
 	  ]
     }
   }
