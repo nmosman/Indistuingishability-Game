@@ -1,6 +1,10 @@
 Authors: Abdalrahman Bush, Raafat Aburashed and Nasir Osman
 
-How to set this app locally (only tested on Windows platform):
+![ScreenShot](Capture.png)
+
+
+
+## How to set this app locally (only tested on Windows platform):
 
 1) Ensure you have the latest version of Node.js downloaded 
 2) Clone this project repository locally
