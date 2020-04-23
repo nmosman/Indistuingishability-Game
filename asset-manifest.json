@@ -1,26 +1,26 @@
 {
   "files": {
-    "main.css": "/static/css/main.a2837438.chunk.css",
-    "main.js": "/static/js/main.dbf5f849.chunk.js",
-    "main.js.map": "/static/js/main.dbf5f849.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.96328dd8.js",
-    "runtime-main.js.map": "/static/js/runtime-main.96328dd8.js.map",
-    "static/css/2.69121389.chunk.css": "/static/css/2.69121389.chunk.css",
-    "static/js/2.6e2891f5.chunk.js": "/static/js/2.6e2891f5.chunk.js",
-    "static/js/2.6e2891f5.chunk.js.map": "/static/js/2.6e2891f5.chunk.js.map",
-    "index.html": "/index.html",
-    "precache-manifest.89cb3b92aa514da8fc00440dea9ebe7b.js": "/precache-manifest.89cb3b92aa514da8fc00440dea9ebe7b.js",
-    "service-worker.js": "/service-worker.js",
-    "static/css/2.69121389.chunk.css.map": "/static/css/2.69121389.chunk.css.map",
-    "static/css/main.a2837438.chunk.css.map": "/static/css/main.a2837438.chunk.css.map",
-    "static/js/2.6e2891f5.chunk.js.LICENSE.txt": "/static/js/2.6e2891f5.chunk.js.LICENSE.txt",
-    "static/media/logo.svg": "/static/media/logo.5d5d9eef.svg"
+    "main.css": "/Indistuingishability-Game/static/css/main.a2837438.chunk.css",
+    "main.js": "/Indistuingishability-Game/static/js/main.9fe30d5b.chunk.js",
+    "main.js.map": "/Indistuingishability-Game/static/js/main.9fe30d5b.chunk.js.map",
+    "runtime-main.js": "/Indistuingishability-Game/static/js/runtime-main.0581b35b.js",
+    "runtime-main.js.map": "/Indistuingishability-Game/static/js/runtime-main.0581b35b.js.map",
+    "static/css/2.69121389.chunk.css": "/Indistuingishability-Game/static/css/2.69121389.chunk.css",
+    "static/js/2.6e2891f5.chunk.js": "/Indistuingishability-Game/static/js/2.6e2891f5.chunk.js",
+    "static/js/2.6e2891f5.chunk.js.map": "/Indistuingishability-Game/static/js/2.6e2891f5.chunk.js.map",
+    "index.html": "/Indistuingishability-Game/index.html",
+    "precache-manifest.0119326c05e9de5473408cde5c8905bc.js": "/Indistuingishability-Game/precache-manifest.0119326c05e9de5473408cde5c8905bc.js",
+    "service-worker.js": "/Indistuingishability-Game/service-worker.js",
+    "static/css/2.69121389.chunk.css.map": "/Indistuingishability-Game/static/css/2.69121389.chunk.css.map",
+    "static/css/main.a2837438.chunk.css.map": "/Indistuingishability-Game/static/css/main.a2837438.chunk.css.map",
+    "static/js/2.6e2891f5.chunk.js.LICENSE.txt": "/Indistuingishability-Game/static/js/2.6e2891f5.chunk.js.LICENSE.txt",
+    "static/media/logo.svg": "/Indistuingishability-Game/static/media/logo.5d5d9eef.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.96328dd8.js",
+    "static/js/runtime-main.0581b35b.js",
     "static/css/2.69121389.chunk.css",
     "static/js/2.6e2891f5.chunk.js",
     "static/css/main.a2837438.chunk.css",
-    "static/js/main.dbf5f849.chunk.js"
+    "static/js/main.9fe30d5b.chunk.js"
   ]
 }
